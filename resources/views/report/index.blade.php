@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="ru">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Список заявлений</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body>
+<x-app-layout>
+    <x-slot name="header">
+        <h2>Список заявлений</h2>
+    </x-slot>
 
     <h1>Список заявлений</h1>
+
     <div>
         <span>Сортировка по дате создания: </span>
         <a href="{{ route('reports.index', ['sort' => 'desc', 'status' => $status]) }}">сначала новые</a>
@@ -63,8 +58,6 @@
             @endforeach
         </tbody>
     </table>
+
     {{ $reports->links() }}
-
-</body>
-
-</html>
+</x-app-layout>

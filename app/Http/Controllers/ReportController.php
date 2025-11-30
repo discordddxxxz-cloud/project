@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Report;
 use App\Models\Status;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class ReportController extends Controller
 {
     public function index(Request $request)
@@ -22,11 +22,13 @@ class ReportController extends Controller
 
         if ($validate) {
             $reports = Report::where('status_id', $status)
+                ->where('user_id', Auth::user()->id)
                 ->orderBy('created_at', $sort)
-                ->paginate(3);
+                ->paginate(6);
         } else {
-            $reports = Report::orderBy('created_at', $sort)
-                ->paginate(3);
+            $reports = Report::where('user_id', Auth::user()->id)
+                ->orderBy('created_at', $sort)
+                ->paginate(6);
         }
 
         $statuses = Status::all();
@@ -35,6 +37,15 @@ class ReportController extends Controller
 
 
     }
+    public function edit(Report $report)
+    {
+        if (Auth::user()->id === $report->user_id) {
+            return view('reports.edit', compact('report'));
+        } else {
+            abort(403, 'У вас нет прав на редактирование этой записи.');
+        }
+    }
+
 
     public function create()
     {
@@ -47,6 +58,9 @@ class ReportController extends Controller
             'number' => 'required|string|max:255',
             'description' => 'required|string',
         ]);
+
+        $data['user_id'] = Auth::user()->id;
+        $data['status_id'] = 1;
 
         Report::create($data);
 
