@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ReportController;
+use App\Http\Middleware\Admin; 
 
 Route::get('/', function () {
     return redirect()->route('reports.index');
@@ -33,4 +34,8 @@ require __DIR__.'/auth.php';
 
 Route::get('/array', [MainController::class, 'showArray'])->name('array');
 
-
+Route::middleware(['Admin'])->group(function () {
+    Route::get('/admin', function () {
+        return view('admin.index');
+    })->name('admin.index');
+});

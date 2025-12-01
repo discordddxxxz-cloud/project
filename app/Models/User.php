@@ -26,7 +26,12 @@ class User extends Authenticatable
         'tel',
         'password',
     ];
+    public const ROLE_ADMIN = 'admin';
 
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -36,7 +41,6 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
     /**
      * Get the attributes that should be cast.
      *
