@@ -40,7 +40,7 @@ class ReportController extends Controller
     public function edit(Report $report)
     {
         if (Auth::user()->id === $report->user_id) {
-            return view('reports.edit', compact('report'));
+            return view('report.edit', compact('report'));
         } else {
             abort(403, 'У вас нет прав на редактирование этой записи.');
         }
@@ -54,6 +54,7 @@ class ReportController extends Controller
 
     public function store(Request $request)
     {
+
         $data = $request->validate([
             'number' => 'required|string|max:255',
             'description' => 'required|string',
@@ -69,11 +70,16 @@ class ReportController extends Controller
 
     public function show(Report $report)
     {
+        if (Auth::user()->id !== $report->user_id) 
+        {
+            abort(403, 'У вас нет прав на редактирование этой записи.');
+        }
         return view('report.show', compact('report'));
     }
 
     public function update(Request $request, Report $report)
     {
+        if (Auth::user()->id === $report->user_id) {
         $data = $request->validate([
             'number' => 'required|string|max:255',
             'description' => 'required|string',
@@ -82,12 +88,21 @@ class ReportController extends Controller
         $report->update($data);
 
         return redirect()->route('reports.index');
+        } else {
+            abort(403, 'У вас нет прав на редактирование этой записи.');
+        }
+        
     }
 
     public function destroy(Report $report)
     {
-        $report->delete();
+        if (Auth::user()->id === $report->user_id) {
+            $report->delete();
 
-        return redirect()->route('reports.index');
+            return redirect()->route('reports.index');
+        } else {
+            abort(403, 'У вас нет прав на редактирование этой записи.');
+        }
+
     }
 }
