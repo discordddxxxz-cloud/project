@@ -70,8 +70,7 @@ class ReportController extends Controller
 
     public function show(Report $report)
     {
-        if (Auth::user()->id !== $report->user_id) 
-        {
+        if (Auth::user()->id !== $report->user_id) {
             abort(403, 'У вас нет прав на редактирование этой записи.');
         }
         return view('report.show', compact('report'));
@@ -80,18 +79,18 @@ class ReportController extends Controller
     public function update(Request $request, Report $report)
     {
         if (Auth::user()->id === $report->user_id) {
-        $data = $request->validate([
-            'number' => 'required|string|max:255',
-            'description' => 'required|string',
-        ]);
+            $data = $request->validate([
+                'number' => 'required|string|max:255',
+                'description' => 'required|string',
+            ]);
 
-        $report->update($data);
+            $report->update($data);
 
-        return redirect()->route('reports.index');
+            return redirect()->route('reports.index');
         } else {
             abort(403, 'У вас нет прав на редактирование этой записи.');
         }
-        
+
     }
 
     public function destroy(Report $report)
@@ -105,4 +104,14 @@ class ReportController extends Controller
         }
 
     }
+    public function statusUpdate(Request $request, Report $report)
+    {
+        $request->validate([
+            'status_id' => 'required|exists:statuses,id',
+        ]);
+
+        $report->update($request->only(['status_id']));
+        return redirect()->back();
+    }
+
 }

@@ -4,7 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ReportController;
-use App\Http\Middleware\Admin; 
+use App\Http\Middleware\Admin;
+
+use App\Http\Controllers\AdminController;
+
 
 Route::get('/', function () {
     return redirect()->route('reports.index');
@@ -30,12 +33,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('/array', [MainController::class, 'showArray'])->name('array');
 
-Route::middleware(['Admin'])->group(function () {
-    Route::get('/admin', function () {
-        return view('admin.index');
-    })->name('admin.index');
+Route::middleware(Admin::class)->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])
+        ->name('admin.index');
+
+    Route::patch(
+        '/reports/status/{report}',
+        [ReportController::class, 'statusUpdate']
+    )->name('reports.status.update');
 });
+
