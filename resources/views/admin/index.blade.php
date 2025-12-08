@@ -24,22 +24,27 @@
                 <td>{{ $report->number }}</td>
 
                 <td>
-                    {{-- форма изменения статуса, код будет доработан ниже --}}
-                    <form class="status-form"
-                          action="{{ route('reports.status.update', $report->id) }}"
-                          method="POST">
-                        @method('patch')
-                        @csrf
+                    @if($report->status_id === 1)
+                        <form class="status-form"
+                            action="{{ route('reports.status.update', $report->id) }}"
+                            method="POST">
+                            @method('patch')
+                            @csrf
 
-                        <select name="status_id" id="status_id">
-                            @foreach($statuses as $status)
-                                <option value="{{ $status->id }}"
-                                    {{ $status->id === $report->status_id ? 'selected' : '' }}>
-                                    {{ $status->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </form>
+                            <select name="status_id" id="status_id">
+                                @foreach($statuses as $status)
+                                    @if($status->id !== 1)
+                                        <option value="{{ $status->id }}"
+                                            {{ $status->id === $report->status_id ? 'selected' : '' }}>
+                                            {{ $status->name }}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </form>
+                    @else
+                        {{ $report->status->name }}
+                    @endif
                 </td>
             </tr>
         @endforeach
