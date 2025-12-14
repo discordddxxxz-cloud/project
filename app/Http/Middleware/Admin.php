@@ -22,6 +22,7 @@ class Admin
             }
         }
 
-        return redirect('login')->with('error', 'Авторизируйтесь под администратором');
+        return redirect()->route('reports.index')->with('error', 'Авторизируйтесь под администратором');
+
     }
 }

@@ -26,5 +26,6 @@
                 {{ $slot }}
             </div>
         </div>
+        @include('layouts.flash-messages') <!-- Флеш сообщ -->
     </body>
 </html>
