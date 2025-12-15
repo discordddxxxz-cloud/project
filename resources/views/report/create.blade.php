@@ -10,13 +10,13 @@
             <div>
                 <label for="number">Номер авто</label><br>
                 <input class="w-full border rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                    type="text" id="number" name="number" value="{{ old('number') }}">
+                    type="text" id="number" required name="number" value="{{ old('number') }}">
             </div>
 
             <div>
                 <label for="description">Описание заявки</label><br>
                 <textarea class="w-full border rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                    id="description" name="description" rows="5">{{ old('description') }}</textarea>
+                    id="description" name="description" required rows="5">{{ old('description') }}</textarea>
             </div>
 
             <button

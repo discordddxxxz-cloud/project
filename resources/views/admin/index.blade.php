@@ -1,7 +1,7 @@
 <x-app-layout>
     <h1>Административная панель</h1>
-
-    <table>
+<div class="overflow-x-auto">
+    <table class="min-w-[900px] w-full" border="1" cellspacing="0" cellpadding="4">
         <thead>
         <tr>
             <th>ФИО</th>
@@ -33,12 +33,12 @@
 
                             <select name="status_id" id="status_id">
                                 @foreach($statuses as $status)
-                                    @if($status->id !== 1)
+                                    
                                         <option value="{{ $status->id }}"
                                             {{ $status->id === $report->status_id ? 'selected' : '' }}>
                                             {{ $status->name }}
                                         </option>
-                                    @endif
+                                    
                                 @endforeach
                             </select>
                         </form>
@@ -50,4 +50,5 @@
         @endforeach
         </tbody>
     </table>
+</div>
 </x-app-layout>

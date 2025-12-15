@@ -5,9 +5,9 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center gap-2">
-                    <x-bi-globe-asia-australia class="w-6 h-6 text-blue-600" />
+                    
                     <a href="{{ route('reports.index') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-bi-globe-asia-australia class="w-6 h-6 text-blue-600" />
                     </a>
                 </div>
 
